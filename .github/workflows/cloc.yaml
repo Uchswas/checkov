@@ -21,12 +21,13 @@ jobs:
       run: sudo apt-get install -y cloc
 
     - name: Run cloc
-      run: |
-        cloc . --json --out=cloc_output.json
-        cat cloc_output.json
+      run: cloc . > cloc_output.txt
+
+    - name: Display CLOC results
+      run: cat cloc_output.txt
 
     - name: Upload CLOC results
       uses: actions/upload-artifact@v3
       with:
         name: cloc-report
-        path: cloc_output.json
+        path: cloc_output.txt
