@@ -1,0 +1,32 @@
+name: Count Lines of Code (CLOC)
+
+on: 
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  cloc:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install cloc
+      run: sudo apt-get install -y cloc
+
+    - name: Run cloc
+      run: |
+        cloc . --json --out=cloc_output.json
+        cat cloc_output.json
+
+    - name: Upload CLOC results
+      uses: actions/upload-artifact@v3
+      with:
+        name: cloc-report
+        path: cloc_output.json
